@@ -5,20 +5,22 @@ import { EventEmitter, Injectable, Output } from '@angular/core';
 })
 export class StepCounterService {
   @Output()
-  stepsCounted = new EventEmitter<number>()
+  stepsCounted = new EventEmitter<{ userSteps: number, tailSteps: number }>()
 
-  steps: number = 0;
+  //TODO get from hardware step counter
+  userSteps: number = 100;
+  tailSteps: number = 0;
 
   intervalId: number | null = null;
 
   constructor() {
+    //const isAvailable = Capacitor.isPluginAvailable('TODO step counter');
+
     this.intervalId = setInterval(() => {
-      this.steps++;
+      this.tailSteps++;
 
-      this.stepsCounted.emit(this.steps);
+      this.stepsCounted.emit({ userSteps: this.userSteps, tailSteps: this. tailSteps });
     }, 1000);
-
-    //const isAvailable = Capacitor.isPluginAvailable('TODO');
   }
 
 }
