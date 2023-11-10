@@ -12,9 +12,12 @@ import { Config } from '../config.model';
 export class MovePage implements OnInit {
   config: Config = this.configService.config;
 
-  constructor(private configService: ConfigService) { }
+  constructor(private configService: ConfigService) {
+
+  }
 
   ngOnInit() {
+
   }
 
 }
