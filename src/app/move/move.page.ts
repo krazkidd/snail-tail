@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ConfigService } from '../services/config.service';
 
-import { Config } from '../config.model';
+import { Config } from '../config';
 
 @Component({
   selector: 'app-move',

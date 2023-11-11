@@ -6,6 +6,8 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+
+import { ConfigService } from './services/config.service';
 import { StepCounterService } from './services/step-counter.service';
 
 @NgModule({
@@ -16,7 +18,8 @@ import { StepCounterService } from './services/step-counter.service';
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy
     },
-    StepCounterService
+    ConfigService,
+    StepCounterService,
   ],
   bootstrap: [AppComponent],
 })
