@@ -14,6 +14,10 @@ const routes: Routes = [
   {
     path: 'move',
     loadChildren: () => import('./move/move.module').then( m => m.MovePageModule)
+  },
+  {
+    path: 'preferences',
+    loadChildren: () => import('./preferences/preferences.module').then( m => m.PreferencesPageModule)
   }
 ];
 
