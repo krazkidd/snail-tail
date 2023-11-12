@@ -1,20 +1,25 @@
 import { Injectable } from '@angular/core';
 
+import { StorageService } from './storage.service';
+
 import { Config } from '../config';
 
-import { AVATARS_USER, AVATARS_TAIL } from '../constants';
+import { CONFIG_DEFAULT } from '../constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfigService {
-  config: Config = (this.storageService.get('config') || {
-    userName: AVATARS_USER[0].name,
-    userIcon: AVATARS_USER[0].icon,
+  config: Promise<Config> = this.storageService.get('config').then(config => config || CONFIG_DEFAULT);
 
-    tailName: AVATARS_TAIL[0].name,
-    tailIcon: AVATARS_TAIL[0].icon,
-  }) as Config;
+  constructor(private storageService: StorageService) {
 
-  constructor() { }
+  }
+
+  async updateConfig(partialConfig: Partial<Config>) {
+    return this.storageService.set('config', {
+      ...await this.config,
+      ...partialConfig
+    });
+  }
 }

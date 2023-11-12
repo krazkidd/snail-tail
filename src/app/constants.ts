@@ -1,3 +1,4 @@
+import { Config } from './config';
 import { UserAvatar } from './user-avatar';
 import { TailAvatar } from './tail-avatar';
 
@@ -91,3 +92,11 @@ export const AVATARS_TAIL: TailAvatar[] = [
     velocityKph: 0.643
   },
 ];
+
+export const CONFIG_DEFAULT: Config = {
+  userName: AVATARS_USER[0].name,
+  userIcon: AVATARS_USER[0].icon,
+
+  tailName: AVATARS_TAIL[0].name,
+  tailIcon: AVATARS_TAIL[0].icon,
+};
