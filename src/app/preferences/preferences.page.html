@@ -11,13 +11,13 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-list [inset]="true">
+  <ion-list *ngIf="config | async as config" [inset]="true">
     <ion-item>
-      <ion-input label="User Name" [value]="config.userName" (ionChange)="onChange({ userName: $event.target.value })"></ion-input>
+      <ion-input type="text" label="User Name" [value]="config.userName" (ionChange)="onChange('userName', $event.target.value)"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-select label="User Icon" [value]="config.userIcon" (ionChange)="onChange({ userIcon: $event.target.value })">
+      <ion-select label="User Icon" [value]="config.userIcon" (ionChange)="onChange('userIcon', $event.target.value)">
         <ion-select-option *ngFor="let avatar of userAvatars" [value]="avatar.icon">
           {{ avatar.name }}
         </ion-select-option>
@@ -25,29 +25,15 @@
     </ion-item>
 
     <ion-item>
-      <ion-input label="Tail Name" [value]="config.tailName" (ionChange)="onChange({ tailName: $event.target.value })"></ion-input>
+      <ion-input type="text" label="Tail Name" [value]="config.tailName" (ionChange)="onChange('tailName', $event.target.value)"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-select label="Tail Icon" [value]="config.tailIcon" (ionChange)="onChange({ tailIcon: $event.target.value })">
+      <ion-select label="Tail Icon" [value]="config.tailIcon" (ionChange)="onChange('tailIcon', $event.target.value)">
         <ion-select-option *ngFor="let avatar of tailAvatars" [value]="avatar.icon">
           {{ avatar.name }}
         </ion-select-option>
       </ion-select>
     </ion-item>
-
-    <!-- <ion-item>
-      <ion-toggle>Toggle</ion-toggle>
-    </ion-item> -->
-
-    <!-- <ion-item>
-      <ion-checkbox>Checkbox</ion-checkbox>
-    </ion-item> -->
-
-    <!-- <ion-item>
-      <ion-range label-placement="start">
-        <div slot="label">Range</div>
-      </ion-range>
-    </ion-item> -->
   </ion-list>
 </ion-content>

@@ -11,7 +11,7 @@ import { Config } from '../config';
   styleUrls: ['./move.page.scss'],
 })
 export class MovePage implements OnInit {
-  config: Config = this.configService.config;
+  config: Promise<Config> = this.configService.config;
 
   isUserCaught = this.stepCounterService.isUserCaught;
 
