@@ -14,7 +14,7 @@ import { AVATARS_USER, AVATARS_TAIL } from '../constants';
   styleUrls: ['./preferences.page.scss'],
 })
 export class PreferencesPage implements OnInit {
-  config: Promise<Config> = this.configService.config;
+  config: Promise<Config> = this.configService.getConfig();
 
   userAvatars: UserAvatar[] = AVATARS_USER;
   tailAvatars: TailAvatar[] = AVATARS_TAIL;
@@ -24,12 +24,10 @@ export class PreferencesPage implements OnInit {
   }
 
   ngOnInit() {
-
+    this.configService.configChanged.subscribe(() => this.config = this.configService.getConfig());
   }
 
-  async onChange(configProp: string, value: string | number | null | undefined) {
-    await this.configService.updateConfig({ [configProp]: value as string });
-
-    this.config = this.configService.config;
+  onChange(configProp: string, value: string | number | null | undefined) {
+    this.configService.setConfig({ [configProp]: value as string });
   }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { ConfigService } from './services/config.service';
 
@@ -9,8 +9,8 @@ import { Config } from './config';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent {
-  config: Promise<Config> = this.configService.config;
+export class AppComponent implements OnInit {
+  config: Promise<Config> = this.configService.getConfig();
 
   public appPages = [
     {
@@ -27,5 +27,9 @@ export class AppComponent {
 
   constructor(private configService: ConfigService) {
 
+  }
+
+  ngOnInit() {
+    this.configService.configChanged.subscribe(() => this.config = this.configService.getConfig());
   }
 }
