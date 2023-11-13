@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 
 import { StorageService } from './storage.service';
 
@@ -10,16 +10,23 @@ import { CONFIG_DEFAULT } from '../constants';
   providedIn: 'root'
 })
 export class ConfigService {
-  config: Promise<Config> = this.storageService.get('config').then(config => config || CONFIG_DEFAULT);
+  @Output()
+  configChanged = new EventEmitter();
 
   constructor(private storageService: StorageService) {
 
   }
 
-  async updateConfig(partialConfig: Partial<Config>) {
-    return this.storageService.set('config', {
-      ...await this.config,
+  async getConfig() {
+    return this.storageService.get('config').then(c => c || CONFIG_DEFAULT);
+  }
+
+  async setConfig(partialConfig: Partial<Config>) {
+    await this.storageService.set('config', {
+      ...await this.getConfig(),
       ...partialConfig
     });
+
+    this.configChanged.emit();
   }
 }
