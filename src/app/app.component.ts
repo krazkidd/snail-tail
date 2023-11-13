@@ -1,18 +1,31 @@
 import { Component } from '@angular/core';
+
+import { ConfigService } from './services/config.service';
+
+import { Config } from './config';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+  config: Promise<Config> = this.configService.config;
+
   public appPages = [
-    { title: 'Inbox', url: '/folder/inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/spam', icon: 'warning' },
+    {
+      title: 'Move',
+      url: '/move',
+      icon: '1f45f'
+    },
+    {
+      title: 'Preferences',
+      url: '/preferences',
+      icon: '2699'
+    },
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor() {}
+
+  constructor(private configService: ConfigService) {
+
+  }
 }
