@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ConfigService } from './services/config.service';
+import { StepCounterService } from './services/step-counter.service';
 
 import { Config } from './config';
 
@@ -25,11 +26,13 @@ export class AppComponent implements OnInit {
     },
   ];
 
-  constructor(private configService: ConfigService) {
+  constructor(private configService: ConfigService, private stepCounterService: StepCounterService) {
 
   }
 
   ngOnInit() {
     this.configService.configChanged.subscribe(() => this.config = this.configService.getConfig());
+
+    this.stepCounterService.startChase();
   }
 }
