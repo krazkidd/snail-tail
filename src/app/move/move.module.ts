@@ -8,7 +8,6 @@ import { SharedModule } from '../shared/shared.module';
 import { MovePageRoutingModule } from './move-routing.module';
 
 import { MovePage } from './move.page';
-import { StepCounterComponent } from './step-counter/step-counter.component';
 
 @NgModule({
   imports: [
@@ -18,10 +17,7 @@ import { StepCounterComponent } from './step-counter/step-counter.component';
     SharedModule,
     MovePageRoutingModule,
   ],
-  declarations: [
-    MovePage,
-    StepCounterComponent
-  ],
+  declarations: [MovePage],
   providers: []
 })
 export class MovePageModule {}
