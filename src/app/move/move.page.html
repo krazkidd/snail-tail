@@ -8,24 +8,24 @@
   </ion-header>
 
   <ion-grid *ngIf="config | async as config">
-    <ion-row class="ion-text-center" style="font-size: 2em;">
+    <ion-row class="ion-text-center">
       <ion-col size="2">
-        <ion-icon aria-hidden="true" src="svg/{{ config.tailIcon }}.svg" style="height: 100%"></ion-icon>
+        <ion-icon aria-hidden="true" src="svg/{{ config.tailIcon }}.svg"></ion-icon>
       </ion-col>
 
       <ion-col>
         <p *ngIf="isUserCaught; else stepCounter">You were caught by {{ config.tailName }}!</p>
         <ng-template #stepCounter>
-          <ion-progress-bar [value]="tailSteps / userSteps" style="height: 2em;" />
+          <ion-progress-bar [value]="tailSteps / userSteps" />
         </ng-template>
       </ion-col>
 
       <ion-col size="2">
-        <ion-icon aria-hidden="true" src="svg/{{ config.userIcon }}.svg" style="height: 100%"></ion-icon>
+        <ion-icon aria-hidden="true" src="svg/{{ config.userIcon }}.svg"></ion-icon>
       </ion-col>
     </ion-row>
 
-    <ion-row class="ion-text-center" style="font-size: 2em;">
+    <ion-row class="ion-text-center">
       <ion-col size="2">
       </ion-col>
 
