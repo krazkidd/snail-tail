@@ -22,9 +22,7 @@ export class MovePage implements OnInit {
   ngOnInit() {
     this.configService.configChanged.subscribe(() => this.config = this.configService.getConfig());
 
-    this.stepCounterService.userCaught.subscribe(() => {
-      this.isUserCaught = this.stepCounterService.isUserCaught;
-    });
+    this.stepCounterService.userCaught.subscribe(() => this.isUserCaught = this.stepCounterService.isUserCaught);
   }
 
 }
