@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
+import { SharedModule } from '../shared/shared.module';
 import { MovePageRoutingModule } from './move-routing.module';
 
 import { MovePage } from './move.page';
@@ -14,6 +15,7 @@ import { StepCounterComponent } from './step-counter/step-counter.component';
     CommonModule,
     FormsModule,
     IonicModule,
+    SharedModule,
     MovePageRoutingModule,
   ],
   declarations: [
