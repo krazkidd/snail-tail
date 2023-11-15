@@ -28,6 +28,11 @@ export class PreferencesPage implements OnInit {
   }
 
   onChange(configProp: string, value: string | number | null | undefined) {
+    if (configProp === 'userStrideLength_m') {
+      // clamp stride length
+      value = String(Math.max(0.1, Math.min(3.0, value as number)));
+    }
+
     this.configService.setConfig({ [configProp]: value as string });
   }
 }

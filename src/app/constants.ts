@@ -96,6 +96,7 @@ export const AVATARS_TAIL: TailAvatar[] = [
 export const CONFIG_DEFAULT: Config = {
   userName: AVATARS_USER[0].name,
   userIcon: AVATARS_USER[0].icon,
+  userStrideLength_m: 1.0,
 
   tailName: AVATARS_TAIL[0].name,
   tailIcon: AVATARS_TAIL[0].icon,

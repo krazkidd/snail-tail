@@ -16,12 +16,33 @@
       <ion-col>
         <p *ngIf="isUserCaught; else stepCounter">You were caught by {{ config.tailName }}!</p>
         <ng-template #stepCounter>
-          <app-step-counter></app-step-counter>
+          <ion-progress-bar [value]="tailSteps / userSteps" style="height: 2em;" />
         </ng-template>
       </ion-col>
 
       <ion-col size="2">
         <ion-icon aria-hidden="true" src="svg/{{ config.userIcon }}.svg" style="height: 100%"></ion-icon>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-text-center" style="font-size: 2em;">
+      <ion-col size="2">
+      </ion-col>
+
+      <ion-col>
+        <p *ngIf="!isUserCaught">
+          You are {{ userSteps - tailSteps }} steps ahead!
+          <br>
+          <ng-container *ngIf="estimatedTimeRemaining_m < 1; else timeRemaining">
+            Get moving!
+          </ng-container>
+          <ng-template #timeRemaining>
+            You have {{ estimatedTimeRemaining_m }} minutes to get moving!
+          </ng-template>
+        </p>
+      </ion-col>
+
+      <ion-col size="2">
       </ion-col>
     </ion-row>
   </ion-grid>

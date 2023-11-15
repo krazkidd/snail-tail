@@ -13,6 +13,10 @@ import { Config } from '../config';
 export class MovePage implements OnInit {
   config: Promise<Config> = this.configService.getConfig();
 
+  userSteps: number = this.stepCounterService.userSteps;
+  tailSteps: number = this.stepCounterService.tailSteps;
+  estimatedTimeRemaining_m: number = 0;
+
   isUserCaught = this.stepCounterService.isUserCaught;
 
   constructor(private configService: ConfigService, private stepCounterService: StepCounterService) {
@@ -21,6 +25,12 @@ export class MovePage implements OnInit {
 
   ngOnInit() {
     this.configService.configChanged.subscribe(() => this.config = this.configService.getConfig());
+
+    this.stepCounterService.stepsCounted.subscribe(({ userSteps, tailSteps, estimatedTimeRemaining_m }) => {
+      this.userSteps = userSteps;
+      this.tailSteps = tailSteps;
+      this.estimatedTimeRemaining_m = estimatedTimeRemaining_m;
+    });
 
     this.stepCounterService.userCaught.subscribe(() => this.isUserCaught = this.stepCounterService.isUserCaught);
   }
