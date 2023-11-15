@@ -21,6 +21,10 @@
     </ion-item>
 
     <ion-item>
+      <ion-input type="number" label="User Stride Length" [value]="config.userStrideLength_m" (ionChange)="onChange('userStrideLength_m', $event.target.value)"></ion-input>
+    </ion-item>
+
+    <ion-item>
       <ion-input type="text" label="Tail Name" [value]="config.tailName" (ionChange)="onChange('tailName', $event.target.value)"></ion-input>
     </ion-item>
 
