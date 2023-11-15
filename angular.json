@@ -26,11 +26,6 @@
                 "output": "assets"
               },
               {
-                "glob": "**/*.svg",
-                "input": "node_modules/ionicons/dist/ionicons/svg",
-                "output": "./svg"
-              },
-              {
                 "glob": "**/{1f3c3-1f3fb-200d-2640-fe0f,1f3c3-1f3fb-200d-2642-fe0f,1f3c3-1f3fb,1f3c3-1f3fc-200d-2640-fe0f,1f3c3-1f3fc-200d-2642-fe0f,1f3c3-1f3fc,1f3c3-1f3fd-200d-2640-fe0f,1f3c3-1f3fd-200d-2642-fe0f,1f3c3-1f3fd,1f3c3-1f3fe-200d-2640-fe0f,1f3c3-1f3fe-200d-2642-fe0f,1f3c3-1f3fe,1f3c3-1f3ff-200d-2640-fe0f,1f3c3-1f3ff-200d-2642-fe0f,1f3c3-1f3ff,1f3c3-200d-2640-fe0f,1f3c3-200d-2642-fe0f,1f3c3,1f40c,1f422,1f45f,2699}.svg",
                 "input": "node_modules/@twemoji/svg",
                 "output": "./svg"
@@ -109,11 +104,6 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
-              },
-              {
-                "glob": "**/*.svg",
-                "input": "node_modules/ionicons/dist/ionicons/svg",
-                "output": "./svg"
               },
               {
                 "glob": "**/{1f3c3-1f3fb-200d-2640-fe0f,1f3c3-1f3fb-200d-2642-fe0f,1f3c3-1f3fb,1f3c3-1f3fc-200d-2640-fe0f,1f3c3-1f3fc-200d-2642-fe0f,1f3c3-1f3fc,1f3c3-1f3fd-200d-2640-fe0f,1f3c3-1f3fd-200d-2642-fe0f,1f3c3-1f3fd,1f3c3-1f3fe-200d-2640-fe0f,1f3c3-1f3fe-200d-2642-fe0f,1f3c3-1f3fe,1f3c3-1f3ff-200d-2640-fe0f,1f3c3-1f3ff-200d-2642-fe0f,1f3c3-1f3ff,1f3c3-200d-2640-fe0f,1f3c3-200d-2642-fe0f,1f3c3,1f40c,1f422,1f45f,2699}.svg",
