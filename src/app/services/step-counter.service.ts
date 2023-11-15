@@ -48,12 +48,14 @@ export class StepCounterService {
     // how long it takes the tail to cover the user's stride length
     const tailStepTime_m = config.userStrideLength_m / (selectedTailAvatar.velocityKph * 1000) * 60;
 
+
+    //TODO timing the first emit is a hack--subscribers can call async getStatus() themselves?
     setTimeout(async () => {
       // run once to update subscribers
       this.tailStep(true);
 
       this._intervalId = setInterval(() => this.tailStep(), tailStepTime_m * 60 * 1000);
-    });
+    }, 1000);
   }
 
   // async userStep() {
