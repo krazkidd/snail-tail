@@ -15,9 +15,9 @@ export class StepCounterService {
     userSteps: number,
     tailSteps: number,
     estimatedTimeRemaining_m: number,
-  }>()
+  }>();
   @Output()
-  userCaught = new EventEmitter()
+  userCaught = new EventEmitter();
 
   config: Promise<Config> = this.configService.getConfig();
 
@@ -26,7 +26,7 @@ export class StepCounterService {
 
   isUserCaught = false;
 
-  _intervalId: number | undefined = undefined;
+  private _intervalId: number | undefined = undefined;
 
   constructor(private configService: ConfigService) {
     //TODO do we need to update the chase timer when the config changes?
