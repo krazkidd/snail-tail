@@ -10,6 +10,7 @@ import { StepCounterService } from '../../services/step-counter.service';
 export class StepCounterComponent  implements OnInit {
   userSteps: number = this.stepCounter.userSteps;
   tailSteps: number = this.stepCounter.tailSteps;
+  estimatedTimeRemaining_m: number = 0;
 
   constructor(private stepCounter: StepCounterService)
   {
@@ -17,9 +18,10 @@ export class StepCounterComponent  implements OnInit {
   }
 
   ngOnInit(): void {
-    this.stepCounter.stepsCounted.subscribe(({ userSteps, tailSteps }) => {
+    this.stepCounter.stepsCounted.subscribe(({ userSteps, tailSteps, estimatedTimeRemaining_m }) => {
       this.userSteps = userSteps;
       this.tailSteps = tailSteps;
+      this.estimatedTimeRemaining_m = estimatedTimeRemaining_m;
     });
   }
 
