@@ -14,6 +14,14 @@ const routes: Routes = [
   {
     path: 'preferences',
     loadChildren: () => import('./preferences/preferences.module').then( m => m.PreferencesPageModule)
+  },
+  {
+    path: '**',
+    loadChildren: () => import('./error/error.module').then( m => m.ErrorPageModule),
+    data: {
+      errorCode: 404,
+      message: 'Not Found'
+    }
   }
 ];
 
