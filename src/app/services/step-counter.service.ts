@@ -48,24 +48,31 @@ export class StepCounterService {
     // how long it takes the tail to cover the user's stride length
     const tailStepTime_m = config.userStrideLength_m / (selectedTailAvatar.velocityKph * 1000) * 60;
 
-    //TODO needs to run once immediately
-    this._intervalId = setInterval(async () => {
-      //TODO poll hardware step counter
-      //const isAvailable = Capacitor.isPluginAvailable('TODO step counter');
+    setTimeout(async () => {
+      // run once to update subscribers
+      this.tailStep(true);
 
-      //TODO increment by time diff * velocity
-      this.tailSteps++;
+      this._intervalId = setInterval(() => this.tailStep(), tailStepTime_m * 60 * 1000);
+    });
+  }
 
-      this.stepsCounted.emit(await this.getStatus());
+  // async userStep() {
+  //   //TODO poll hardware step counter
+  //   //const isAvailable = Capacitor.isPluginAvailable('TODO step counter');
+  // }
 
-      if (this.tailSteps >= this.userSteps) {
-        this.stopChase();
+  async tailStep(initialStep = false) {
+    !initialStep && this.tailSteps++;
 
-        this.isUserCaught = true;
+    this.stepsCounted.emit(await this.getStatus());
 
-        this.userCaught.emit();
-      }
-    }, tailStepTime_m * 60 * 1000);
+    if (this.tailSteps >= this.userSteps) {
+      this.stopChase();
+
+      this.isUserCaught = true;
+
+      this.userCaught.emit();
+    }
   }
 
   stopChase() {
