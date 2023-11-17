@@ -2,6 +2,11 @@ import { Config } from './config';
 import { UserAvatar } from './user-avatar';
 import { TailAvatar } from './tail-avatar';
 
+export const DATA_KEY = {
+  ERROR_CODE: 'errorCode',
+  MESSAGE: 'message',
+};
+
 export const AVATARS_USER: UserAvatar[] = [
   {
     name: 'Running Person 1',

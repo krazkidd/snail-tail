@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
+import { DATA_KEY } from './constants';
+
 const routes: Routes = [
   {
     path: '',
@@ -19,8 +21,8 @@ const routes: Routes = [
     path: '**',
     loadChildren: () => import('./error/error.module').then( m => m.ErrorPageModule),
     data: {
-      errorCode: 404,
-      message: 'Not Found'
+      [DATA_KEY.ERROR_CODE]: 404,
+      [DATA_KEY.MESSAGE]: 'Not Found'
     }
   }
 ];
