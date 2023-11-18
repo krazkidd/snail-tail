@@ -31,7 +31,7 @@
                 "output": "./svg"
               },
               {
-                "glob": "**/{1f40c,1f422}.svg",
+                "glob": "**/{1f40c,1f422,1f406}.svg",
                 "input": "node_modules/@twemoji/svg",
                 "output": "./svg"
               },
@@ -121,7 +121,7 @@
                 "output": "./svg"
               },
               {
-                "glob": "**/{1f40c,1f422}.svg",
+                "glob": "**/{1f40c,1f422,1f406}.svg",
                 "input": "node_modules/@twemoji/svg",
                 "output": "./svg"
               },

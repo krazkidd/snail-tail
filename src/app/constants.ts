@@ -96,6 +96,12 @@ export const AVATARS_TAIL: TailAvatar[] = [
     icon: '1f422',
     velocityKph: 0.643
   },
+  {
+    name: 'Leopard',
+    icon: '1f406',
+    //velocityKph: 58.0, // max
+    velocityKph: 20.0,
+  },
 ];
 
 export const CONFIG_DEFAULT: Config = {
