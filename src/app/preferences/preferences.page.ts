@@ -2,7 +2,6 @@ import { Component, } from '@angular/core';
 
 import { ConfigService } from '../services/config.service';
 
-import { Config } from '../config';
 import { UserAvatar } from '../user-avatar';
 import { TailAvatar } from '../tail-avatar';
 
