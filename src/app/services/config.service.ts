@@ -7,6 +7,8 @@ import { Config } from '../config';
 
 import { CONFIG_DEFAULT } from '../constants';
 
+const STORAGE_KEY = 'config';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,7 +26,7 @@ export class ConfigService {
   }
 
   async getConfig() {
-    return this.storageService.get('config').then(c => c || CONFIG_DEFAULT);
+    return this.storageService.get(STORAGE_KEY);
   }
 
   async setConfig(partialConfig: Partial<Config>) {
@@ -33,7 +35,7 @@ export class ConfigService {
       ...partialConfig
     };
 
-    await this.storageService.set('config', config);
+    await this.storageService.set(STORAGE_KEY, config);
 
     this.config$.next(config);
   }
