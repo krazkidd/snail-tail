@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { combineLatest, map } from 'rxjs';
 
 import { ConfigService } from '../services/config.service';
 import { StepCounterService } from '../services/step-counter.service';
@@ -9,8 +10,10 @@ import { StepCounterService } from '../services/step-counter.service';
   styleUrls: ['./move.page.scss'],
 })
 export class MovePage {
-  config$ = this.configService.config$;
-  stepsCounted$ = this.stepCounterService.stepsCounted$;
+  latest$ = combineLatest([
+    this.configService.config$,
+    this.stepCounterService.stepsCounted$
+  ]).pipe(map(([ config, stepsCounted ]) => ({ config, stepsCounted })));
 
   constructor(private configService: ConfigService, private stepCounterService: StepCounterService) {
 
