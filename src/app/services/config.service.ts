@@ -31,7 +31,7 @@ export class ConfigService {
 
   async setConfig(partialConfig: Partial<Config>) {
     const config = {
-      ...await this.getConfig(),
+      ...(await this.getConfig() || CONFIG_DEFAULT),
       ...partialConfig
     };
 
