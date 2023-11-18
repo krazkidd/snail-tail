@@ -1,4 +1,5 @@
-import { EventEmitter, Injectable, Output } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 import { StorageService } from './storage.service';
 
@@ -10,11 +11,16 @@ import { CONFIG_DEFAULT } from '../constants';
   providedIn: 'root'
 })
 export class ConfigService {
-  @Output()
-  configChanged = new EventEmitter();
+  config$ = new BehaviorSubject(CONFIG_DEFAULT);
 
   constructor(private storageService: StorageService) {
+    setTimeout(async () => {
+      const storedConfig = await this.getConfig();
 
+      if (storedConfig) {
+        this.config$.next(storedConfig);
+      }
+    });
   }
 
   async getConfig() {
@@ -22,11 +28,13 @@ export class ConfigService {
   }
 
   async setConfig(partialConfig: Partial<Config>) {
-    await this.storageService.set('config', {
+    const config = {
       ...await this.getConfig(),
       ...partialConfig
-    });
+    };
 
-    this.configChanged.emit();
+    await this.storageService.set('config', config);
+
+    this.config$.next(config);
   }
 }

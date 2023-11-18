@@ -7,7 +7,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-grid *ngIf="config | async as config">
+  <ion-grid *ngIf="config$ | async as config">
     <ion-row class="ion-text-center">
       <ion-col size="2">
         <ion-icon aria-hidden="true" src="svg/{{ config.tailIcon }}.svg"></ion-icon>

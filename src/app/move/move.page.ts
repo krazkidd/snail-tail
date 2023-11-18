@@ -11,7 +11,7 @@ import { Config } from '../config';
   styleUrls: ['./move.page.scss'],
 })
 export class MovePage implements OnInit {
-  config: Promise<Config> = this.configService.getConfig();
+  config$ = this.configService.config$;
 
   userSteps: number = this.stepCounterService.userSteps;
   tailSteps: number = this.stepCounterService.tailSteps;
@@ -24,8 +24,6 @@ export class MovePage implements OnInit {
   }
 
   ngOnInit() {
-    this.configService.configChanged.subscribe(() => this.config = this.configService.getConfig());
-
     this.stepCounterService.stepsCounted.subscribe(({ userSteps, tailSteps, estimatedTimeRemaining_m }) => {
       this.userSteps = userSteps;
       this.tailSteps = tailSteps;

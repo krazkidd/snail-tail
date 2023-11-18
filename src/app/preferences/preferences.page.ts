@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, } from '@angular/core';
 
 import { ConfigService } from '../services/config.service';
 
@@ -13,18 +13,14 @@ import { AVATARS_USER, AVATARS_TAIL } from '../constants';
   templateUrl: './preferences.page.html',
   styleUrls: ['./preferences.page.scss'],
 })
-export class PreferencesPage implements OnInit {
-  config: Promise<Config> = this.configService.getConfig();
+export class PreferencesPage {
+  config$ = this.configService.config$;
 
   userAvatars: UserAvatar[] = AVATARS_USER;
   tailAvatars: TailAvatar[] = AVATARS_TAIL;
 
   constructor(private configService: ConfigService) {
 
-  }
-
-  ngOnInit() {
-    this.configService.configChanged.subscribe(() => this.config = this.configService.getConfig());
   }
 
   onChange(configProp: string, value: string | number | null | undefined) {
