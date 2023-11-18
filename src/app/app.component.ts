@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 
 import { ConfigService } from './services/config.service';
 import { StepCounterService } from './services/step-counter.service';
@@ -10,7 +10,7 @@ import { Config } from './config';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   config: Promise<Config> = this.configService.getConfig();
 
   public appPages = [
@@ -32,7 +32,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.configService.configChanged.subscribe(() => this.config = this.configService.getConfig());
+  }
 
+  ngAfterViewInit() {
     this.stepCounterService.startChase();
   }
 }

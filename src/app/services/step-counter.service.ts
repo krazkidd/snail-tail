@@ -40,7 +40,6 @@ export class StepCounterService {
 
     this.isUserCaught = false;
 
-    //TODO timing the first emit is a hack--subscribers can call async getStatus() themselves?
     setTimeout(async () => {
       // run once to update subscribers
       this.tailStep(true);
@@ -54,7 +53,7 @@ export class StepCounterService {
       const tailStepTime_m = config.userStrideLength_m / (selectedTailAvatar.velocityKph * 1000) * 60;
 
       this._intervalId = setInterval(() => this.tailStep(), tailStepTime_m * 60 * 1000);
-    }, 1000);
+    });
   }
 
   // async userStep() {
