@@ -1,5 +1,5 @@
 export interface TailAvatar {
   name: string;
   icon: string;
-  velocityKph: number;
+  velocity_kph: number;
 };

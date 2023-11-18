@@ -87,19 +87,19 @@ export const AVATARS_TAIL: TailAvatar[] = [
     name: 'Snail',
     icon: '1f40c',
     // Archie (world record)
-    velocityKph: 0.048,
+    velocity_kph: 0.048,
   },
   {
     name: 'Tortoise',
     icon: '1f422',
-    velocityKph: 0.643
+    velocity_kph: 0.643
   },
   {
     name: 'Leopard',
     icon: '1f406',
     // max
-    //velocityKph: 58.0,
-    velocityKph: 20.0,
+    //velocity_kph: 58.0,
+    velocity_kph: 20.0,
   },
 ];
 

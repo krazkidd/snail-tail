@@ -43,7 +43,7 @@ export class StepCounterService implements OnDestroy {
       clearInterval(this._intervalId);
 
       // how long it takes the tail to cover the user's stride length
-      const tailStepTime_m = config.userStrideLength_m / (this.getAvatar(config.tailIcon).velocityKph * 1000) * 60;
+      const tailStepTime_m = config.userStrideLength_m / (this.getAvatar(config.tailIcon).velocity_kph * 1000) * 60;
 
       // update subscribers with initial values
       this.stepsCounted$.next({
