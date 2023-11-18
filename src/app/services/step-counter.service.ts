@@ -13,15 +13,12 @@ export class StepCounterService implements OnDestroy {
   stepsCounted = new EventEmitter<{
     userSteps: number,
     tailSteps: number,
+    isUserCaught: boolean,
     estimatedTimeRemaining_m: number,
   }>();
-  @Output()
-  userCaught = new EventEmitter();
 
   userSteps: number = 0;
   tailSteps: number = 0;
-
-  isUserCaught = false;
 
   private _configSub: Subscription | null = null;
   private _intervalId: number | undefined = undefined;
@@ -41,8 +38,6 @@ export class StepCounterService implements OnDestroy {
     this.userSteps = 100;
     this.tailSteps = 0;
 
-    this.isUserCaught = false;
-
     this._configSub = this.configService.config$.subscribe(config => {
       clearInterval(this._intervalId);
 
@@ -53,24 +48,24 @@ export class StepCounterService implements OnDestroy {
       this.stepsCounted.emit({
         userSteps: this.userSteps,
         tailSteps: this.tailSteps,
+        isUserCaught: false,
         estimatedTimeRemaining_m: Math.floor((this.userSteps - this.tailSteps) * tailStepTime_m),
       });
 
       this._intervalId = setInterval(() => {
         this.tailSteps++;
 
+        const isUserCaught = this.tailSteps >= this.userSteps;
+
         this.stepsCounted.emit({
           userSteps: this.userSteps,
           tailSteps: this.tailSteps,
+          isUserCaught,
           estimatedTimeRemaining_m: Math.floor((this.userSteps - this.tailSteps) * tailStepTime_m),
         });
 
-        if (this.tailSteps >= this.userSteps) {
+        if (isUserCaught) {
           this.stopChase();
-
-          this.isUserCaught = true;
-
-          this.userCaught.emit();
         }
       }, tailStepTime_m * 60 * 1000);
     });

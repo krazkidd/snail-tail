@@ -15,22 +15,20 @@ export class MovePage implements OnInit {
 
   userSteps: number = this.stepCounterService.userSteps;
   tailSteps: number = this.stepCounterService.tailSteps;
+  isUserCaught = false;
   estimatedTimeRemaining_m: number = 0;
-
-  isUserCaught = this.stepCounterService.isUserCaught;
 
   constructor(private configService: ConfigService, private stepCounterService: StepCounterService) {
 
   }
 
   ngOnInit() {
-    this.stepCounterService.stepsCounted.subscribe(({ userSteps, tailSteps, estimatedTimeRemaining_m }) => {
+    this.stepCounterService.stepsCounted.subscribe(({ userSteps, tailSteps, isUserCaught, estimatedTimeRemaining_m }) => {
       this.userSteps = userSteps;
       this.tailSteps = tailSteps;
+      this.isUserCaught = isUserCaught;
       this.estimatedTimeRemaining_m = estimatedTimeRemaining_m;
     });
-
-    this.stepCounterService.userCaught.subscribe(() => this.isUserCaught = this.stepCounterService.isUserCaught);
   }
 
 }
