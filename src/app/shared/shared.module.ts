@@ -5,10 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { AppHeaderComponent } from './app-header/app-header.component';
-
+import { AppHeaderCondensedComponent } from './app-header-condensed/app-header-condensed.component';
 @NgModule({
   declarations: [
     AppHeaderComponent,
+    AppHeaderCondensedComponent,
   ],
   imports: [
     CommonModule,
@@ -17,6 +18,7 @@ import { AppHeaderComponent } from './app-header/app-header.component';
   ],
   exports: [
     AppHeaderComponent,
+    AppHeaderCondensedComponent,
   ]
 })
 export class SharedModule { }
