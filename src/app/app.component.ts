@@ -1,17 +1,15 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 
 import { ConfigService } from './services/config.service';
 import { StepCounterService } from './services/step-counter.service';
-
-import { Config } from './config';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent implements OnInit, AfterViewInit {
-  config: Promise<Config> = this.configService.getConfig();
+export class AppComponent implements AfterViewInit {
+  config$ = this.configService.config$;
 
   public appPages = [
     {
@@ -28,10 +26,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   constructor(private configService: ConfigService, private stepCounterService: StepCounterService) {
 
-  }
-
-  ngOnInit() {
-    this.configService.configChanged.subscribe(() => this.config = this.configService.getConfig());
   }
 
   ngAfterViewInit() {

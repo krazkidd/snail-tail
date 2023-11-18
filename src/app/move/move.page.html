@@ -7,21 +7,21 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-grid *ngIf="config | async as config">
+  <ion-grid *ngIf="latest$ | async as latest">
     <ion-row class="ion-text-center">
       <ion-col size="2">
-        <ion-icon aria-hidden="true" src="svg/{{ config.tailIcon }}.svg"></ion-icon>
+        <ion-icon aria-hidden="true" src="svg/{{ latest.config.tailIcon }}.svg"></ion-icon>
       </ion-col>
 
       <ion-col>
-        <p *ngIf="isUserCaught; else stepCounter">You were caught by {{ config.tailName }}!</p>
+        <p *ngIf="latest.stepsCounted.isUserCaught; else stepCounter">You were caught by {{ latest.config.tailName }}!</p>
         <ng-template #stepCounter>
-          <ion-progress-bar [value]="tailSteps / userSteps" />
+          <ion-progress-bar [value]="latest.stepsCounted.tailSteps / latest.stepsCounted.userSteps" />
         </ng-template>
       </ion-col>
 
       <ion-col size="2">
-        <ion-icon aria-hidden="true" src="svg/{{ config.userIcon }}.svg"></ion-icon>
+        <ion-icon aria-hidden="true" src="svg/{{ latest.config.userIcon }}.svg"></ion-icon>
       </ion-col>
     </ion-row>
 
@@ -30,14 +30,14 @@
       </ion-col>
 
       <ion-col>
-        <p *ngIf="!isUserCaught">
-          You are {{ userSteps - tailSteps }} steps ahead!
+        <p *ngIf="!latest.stepsCounted.isUserCaught">
+          You are {{ latest.stepsCounted.userSteps - latest.stepsCounted.tailSteps }} steps ahead!
           <br>
-          <ng-container *ngIf="estimatedTimeRemaining_m < 1; else timeRemaining">
+          <ng-container *ngIf="latest.stepsCounted.estimatedTimeRemaining_m < 1; else timeRemaining">
             Get moving!
           </ng-container>
           <ng-template #timeRemaining>
-            You have {{ estimatedTimeRemaining_m }} minutes to get moving!
+            You have {{ latest.stepsCounted.estimatedTimeRemaining_m }} minutes to get moving!
           </ng-template>
         </p>
       </ion-col>

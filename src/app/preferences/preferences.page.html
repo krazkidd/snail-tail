@@ -7,7 +7,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <ng-container *ngIf="config | async as config">
+  <ng-container *ngIf="config$ | async as config">
     <ion-item-group>
       <ion-item-divider>
         <ion-label>User</ion-label>

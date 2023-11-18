@@ -1,6 +1,6 @@
 <ion-app>
   <ion-split-pane contentId="main-content" [when]="false">
-    <ion-menu *ngIf="config | async as config" contentId="main-content" type="overlay">
+    <ion-menu *ngIf="config$ | async as config" contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
           <ion-list-header>Snail Tail</ion-list-header>
