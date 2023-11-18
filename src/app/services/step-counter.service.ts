@@ -1,5 +1,5 @@
-import { EventEmitter, Injectable, OnDestroy, Output } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { ConfigService } from './config.service';
 
@@ -9,16 +9,17 @@ import { AVATARS_TAIL } from '../constants';
   providedIn: 'root'
 })
 export class StepCounterService implements OnDestroy {
-  @Output()
-  stepsCounted = new EventEmitter<{
+  stepsCounted$ = new BehaviorSubject<{
     userSteps: number,
     tailSteps: number,
     isUserCaught: boolean,
     estimatedTimeRemaining_m: number,
-  }>();
-
-  userSteps: number = 0;
-  tailSteps: number = 0;
+  }>({
+    userSteps: 0,
+    tailSteps: 0,
+    isUserCaught: false,
+    estimatedTimeRemaining_m: 0,
+  });
 
   private _configSub: Subscription | null = null;
   private _intervalId: number | undefined = undefined;
@@ -35,8 +36,8 @@ export class StepCounterService implements OnDestroy {
     this.stopChase();
 
     //TODO we can determine initial steps by defining some "head start" time like some number of days
-    this.userSteps = 100;
-    this.tailSteps = 0;
+    let userSteps = 100;
+    let tailSteps = 0;
 
     this._configSub = this.configService.config$.subscribe(config => {
       clearInterval(this._intervalId);
@@ -45,23 +46,23 @@ export class StepCounterService implements OnDestroy {
       const tailStepTime_m = config.userStrideLength_m / (this.getAvatar(config.tailIcon).velocityKph * 1000) * 60;
 
       // update subscribers with initial values
-      this.stepsCounted.emit({
-        userSteps: this.userSteps,
-        tailSteps: this.tailSteps,
+      this.stepsCounted$.next({
+        userSteps: userSteps,
+        tailSteps: tailSteps,
         isUserCaught: false,
-        estimatedTimeRemaining_m: Math.floor((this.userSteps - this.tailSteps) * tailStepTime_m),
+        estimatedTimeRemaining_m: Math.floor((userSteps - tailSteps) * tailStepTime_m),
       });
 
       this._intervalId = setInterval(() => {
-        this.tailSteps++;
+        tailSteps++;
 
-        const isUserCaught = this.tailSteps >= this.userSteps;
+        const isUserCaught = tailSteps >= userSteps;
 
-        this.stepsCounted.emit({
-          userSteps: this.userSteps,
-          tailSteps: this.tailSteps,
+        this.stepsCounted$.next({
+          userSteps: userSteps,
+          tailSteps: tailSteps,
           isUserCaught,
-          estimatedTimeRemaining_m: Math.floor((this.userSteps - this.tailSteps) * tailStepTime_m),
+          estimatedTimeRemaining_m: Math.floor((userSteps - tailSteps) * tailStepTime_m),
         });
 
         if (isUserCaught) {
