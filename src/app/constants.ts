@@ -110,4 +110,6 @@ export const CONFIG_DEFAULT: Config = {
 
   tailName: AVATARS_TAIL[0].name,
   tailIcon: AVATARS_TAIL[0].icon,
+
+  initialLead_km: 1.0,
 };

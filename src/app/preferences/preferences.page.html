@@ -43,5 +43,15 @@
         </ion-select>
       </ion-item>
     </ion-item-group>
+
+    <ion-item-group>
+      <ion-item-divider>
+        <ion-label>Other</ion-label>
+      </ion-item-divider>
+
+      <ion-item>
+        <ion-input type="number" label="Initial Lead (km)" labelPlacement="stacked" [value]="config.userStrideLength_m" (ionChange)="onChange('initialLead_km', $event.target.value)"></ion-input>
+      </ion-item>
+    </ion-item-group>
   </ng-container>
 </ion-content>

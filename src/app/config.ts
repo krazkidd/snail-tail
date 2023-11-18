@@ -5,4 +5,6 @@ export interface Config {
 
   tailName: string;
   tailIcon: string;
+
+  initialLead_km: number;
 };

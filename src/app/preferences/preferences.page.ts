@@ -26,6 +26,9 @@ export class PreferencesPage {
     if (configProp === 'userStrideLength_m') {
       // clamp stride length
       value = String(Math.max(0.1, Math.min(3.0, value as number)));
+    } else if (configProp === 'initialLead_km') {
+      // clamp initial lead
+      value = String(Math.max(0.1, Math.min(1000.0, value as number)));
     }
 
     this.configService.setConfig({ [configProp]: value as string });

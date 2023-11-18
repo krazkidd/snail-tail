@@ -35,12 +35,11 @@ export class StepCounterService implements OnDestroy {
   async startChase() {
     this.stopChase();
 
-    //TODO we can determine initial steps by defining some "head start" time like some number of days
-    let userSteps = 100;
-    let tailSteps = 0;
-
     this._configSub = this.configService.config$.subscribe(config => {
       clearInterval(this._intervalId);
+
+      let userSteps = config.initialLead_km * 1000 / config.userStrideLength_m;
+      let tailSteps = 0;
 
       // how long it takes the tail to cover the user's stride length
       const tailStepTime_m = config.userStrideLength_m / (this.getAvatar(config.tailIcon).velocity_kph * 1000) * 60;
