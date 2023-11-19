@@ -1,14 +1,13 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { ConfigService } from './services/config.service';
-import { StepCounterService } from './services/step-counter.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent {
   config$ = this.configService.config$;
 
   public appPages = [
@@ -24,11 +23,8 @@ export class AppComponent implements AfterViewInit {
     },
   ];
 
-  constructor(private configService: ConfigService, private stepCounterService: StepCounterService) {
+  constructor(private configService: ConfigService) {
 
   }
 
-  ngAfterViewInit() {
-    this.stepCounterService.startChase();
-  }
 }

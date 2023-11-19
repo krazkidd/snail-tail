@@ -12,8 +12,9 @@ import { StepCounterService } from '../services/step-counter.service';
 export class MovePage {
   latest$ = combineLatest([
     this.configService.config$,
-    this.stepCounterService.stepsCounted$
-  ]).pipe(map(([ config, stepsCounted ]) => ({ config, stepsCounted })));
+    this.stepCounterService.timerState$,
+    this.stepCounterService.stepsCounted$,
+  ]).pipe(map(([ config, timerState, stepsCounted ]) => ({ config, timerState, stepsCounted })));
 
   constructor(private configService: ConfigService, private stepCounterService: StepCounterService) {
 

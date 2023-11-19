@@ -3,43 +3,65 @@
 <ion-content [fullscreen]="true">
   <app-header-condensed title="Move"></app-header-condensed>
 
-  <ion-grid *ngIf="latest$ | async as latest">
-    <ion-row class="ion-text-center">
-      <ion-col size="2">
-        <ion-icon aria-hidden="true" src="svg/{{ latest.config.tailIcon }}.svg"></ion-icon>
-      </ion-col>
+  <ng-container *ngIf="latest$ | async as latest">
+    <ion-grid *ngIf="latest.timerState !== 'stopped'; else stoppedMessage">
+      <ion-row class="ion-text-center">
+        <ion-col size="2">
+          <ion-icon aria-hidden="true" src="svg/{{ latest.config.tailIcon }}.svg"></ion-icon>
+        </ion-col>
 
-      <ion-col>
-        <p *ngIf="latest.stepsCounted.isUserCaught; else stepCounter">You were caught by {{ latest.config.tailName }}!</p>
-        <ng-template #stepCounter>
-          <ion-progress-bar [value]="latest.stepsCounted.tailSteps / latest.stepsCounted.userSteps" />
-        </ng-template>
-      </ion-col>
-
-      <ion-col size="2">
-        <ion-icon aria-hidden="true" src="svg/{{ latest.config.userIcon }}.svg"></ion-icon>
-      </ion-col>
-    </ion-row>
-
-    <ion-row class="ion-text-center">
-      <ion-col size="2">
-      </ion-col>
-
-      <ion-col>
-        <p *ngIf="!latest.stepsCounted.isUserCaught">
-          You are {{ latest.stepsCounted.userSteps - latest.stepsCounted.tailSteps }} steps ahead!
-          <br>
-          <ng-container *ngIf="latest.stepsCounted.estimatedTimeRemaining_m < 1; else timeRemaining">
-            Get moving!
-          </ng-container>
-          <ng-template #timeRemaining>
-            You have {{ latest.stepsCounted.estimatedTimeRemaining_m }} minutes to get moving!
+        <ion-col>
+          <p *ngIf="latest.stepsCounted.isUserCaught; else stepCounter">You were caught by {{ latest.config.tailName }}!</p>
+          <ng-template #stepCounter>
+            <ion-progress-bar [value]="latest.stepsCounted.tailSteps / latest.stepsCounted.userSteps" />
           </ng-template>
-        </p>
-      </ion-col>
+        </ion-col>
 
-      <ion-col size="2">
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+        <ion-col size="2">
+          <ion-icon aria-hidden="true" src="svg/{{ latest.config.userIcon }}.svg"></ion-icon>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="ion-text-center">
+        <ion-col size="2">
+        </ion-col>
+
+        <ion-col>
+          <p *ngIf="!latest.stepsCounted.isUserCaught">
+            You are {{ latest.stepsCounted.userSteps - latest.stepsCounted.tailSteps }} steps ahead!
+            <br>
+            <ng-container *ngIf="latest.stepsCounted.estimatedTimeRemaining_m < 1; else timeRemaining">
+              Get moving!
+            </ng-container>
+            <ng-template #timeRemaining>
+              You have {{ latest.stepsCounted.estimatedTimeRemaining_m }} minutes to get moving!
+            </ng-template>
+          </p>
+        </ion-col>
+
+        <ion-col size="2">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-container>
+  <ng-template #stoppedMessage>
+    <ion-grid>
+      <ion-row class="ion-text-center">
+        <ion-col size="2">
+
+        </ion-col>
+
+        <ion-col>
+          <p>
+            Start the timer and get moving!
+          </p>
+        </ion-col>
+
+        <ion-col size="2">
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-template>
+
 </ion-content>
