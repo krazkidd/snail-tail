@@ -62,7 +62,12 @@ export class StepCounterService implements OnDestroy {
 
       this._intervalId = setInterval(() => {
         this.tailSteps++;
-        this.isUserCaught = this.tailSteps >= this.userSteps;
+
+        if (this.tailSteps >= this.userSteps) {
+          this.isUserCaught = true;
+
+          this.pauseChase();
+        }
 
         this.stepsCounted$.next({
           userSteps: this.userSteps,
@@ -70,10 +75,6 @@ export class StepCounterService implements OnDestroy {
           isUserCaught: this.isUserCaught,
           estimatedTimeRemaining_m: Math.floor((this.userSteps - this.tailSteps) * tailStepTime_m),
         });
-
-        if (this.isUserCaught) {
-          this.pauseChase();
-        }
       }, tailStepTime_m * 60 * 1000);
     });
 
