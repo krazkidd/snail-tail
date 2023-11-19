@@ -42,24 +42,24 @@ export class StepCounterService implements OnDestroy {
     this._configSub = this.configService.config$.subscribe(config => {
       clearInterval(this._intervalId);
 
+      // how long it takes the tail to cover the user's stride length
+      const tailStepTime_m = config.userStrideLength_m / (AVATARS_TAIL[config.tailIcon].velocity_kph * 1000) * 60;
+      const tailStepTime_ms = tailStepTime_m * 60 * 1000;
+
       // reset steps when restarting from stopped state
       if (this.isUserCaught || this.timerState$.getValue() === 'stopped') {
         this.userSteps = config.initialLead_km * 1000 / config.userStrideLength_m;
         this.tailSteps = 0;
         this.isUserCaught = false;
+
+        // update subscribers with initial values
+        this.stepsCounted$.next({
+          userSteps: this.userSteps,
+          tailSteps: this.tailSteps,
+          isUserCaught: this.isUserCaught,
+          estimatedTimeRemaining_m: Math.floor((this.userSteps - this.tailSteps) * tailStepTime_m),
+        });
       }
-
-      // how long it takes the tail to cover the user's stride length
-      const tailStepTime_m = config.userStrideLength_m / (AVATARS_TAIL[config.tailIcon].velocity_kph * 1000) * 60;
-      const tailStepTime_ms = tailStepTime_m * 60 * 1000;
-
-      // update subscribers with initial values
-      this.stepsCounted$.next({
-        userSteps: this.userSteps,
-        tailSteps: this.tailSteps,
-        isUserCaught: this.isUserCaught,
-        estimatedTimeRemaining_m: Math.floor((this.userSteps - this.tailSteps) * tailStepTime_m),
-      });
 
       let lastStepTimestamp = Date.now();
 
