@@ -9,6 +9,8 @@ import { AVATARS_TAIL } from '../constants';
   providedIn: 'root'
 })
 export class StepCounterService implements OnDestroy {
+  timerState$ = new BehaviorSubject<'started' | 'paused' | 'stopped'>('stopped');
+
   stepsCounted$ = new BehaviorSubject<{
     userSteps: number,
     tailSteps: number,
@@ -21,6 +23,10 @@ export class StepCounterService implements OnDestroy {
     estimatedTimeRemaining_m: 0,
   });
 
+  private userSteps = 0;
+  private tailSteps = 0;
+  private isUserCaught = false;
+
   private _configSub: Subscription | null = null;
   private _intervalId: number | undefined = undefined;
 
@@ -32,48 +38,61 @@ export class StepCounterService implements OnDestroy {
     this.stopChase();
   }
 
-  async startChase() {
-    this.stopChase();
-
+  startChase() {
     this._configSub = this.configService.config$.subscribe(config => {
       clearInterval(this._intervalId);
 
-      let userSteps = config.initialLead_km * 1000 / config.userStrideLength_m;
-      let tailSteps = 0;
+      // reset steps when restarting from stopped state
+      if (this.isUserCaught || this.timerState$.getValue() === 'stopped') {
+        this.userSteps = config.initialLead_km * 1000 / config.userStrideLength_m;
+        this.tailSteps = 0;
+        this.isUserCaught = false;
+      }
 
       // how long it takes the tail to cover the user's stride length
       const tailStepTime_m = config.userStrideLength_m / (AVATARS_TAIL[config.tailIcon].velocity_kph * 1000) * 60;
 
       // update subscribers with initial values
       this.stepsCounted$.next({
-        userSteps: userSteps,
-        tailSteps: tailSteps,
-        isUserCaught: false,
-        estimatedTimeRemaining_m: Math.floor((userSteps - tailSteps) * tailStepTime_m),
+        userSteps: this.userSteps,
+        tailSteps: this.tailSteps,
+        isUserCaught: this.isUserCaught,
+        estimatedTimeRemaining_m: Math.floor((this.userSteps - this.tailSteps) * tailStepTime_m),
       });
 
       this._intervalId = setInterval(() => {
-        tailSteps++;
-
-        const isUserCaught = tailSteps >= userSteps;
+        this.tailSteps++;
+        this.isUserCaught = this.tailSteps >= this.userSteps;
 
         this.stepsCounted$.next({
-          userSteps: userSteps,
-          tailSteps: tailSteps,
-          isUserCaught,
-          estimatedTimeRemaining_m: Math.floor((userSteps - tailSteps) * tailStepTime_m),
+          userSteps: this.userSteps,
+          tailSteps: this.tailSteps,
+          isUserCaught: this.isUserCaught,
+          estimatedTimeRemaining_m: Math.floor((this.userSteps - this.tailSteps) * tailStepTime_m),
         });
 
-        if (isUserCaught) {
-          this.stopChase();
+        if (this.isUserCaught) {
+          this.pauseChase();
         }
       }, tailStepTime_m * 60 * 1000);
     });
+
+    this.timerState$.next('started');
+  }
+
+  pauseChase() {
+    clearInterval(this._intervalId);
+
+    this._configSub = this._configSub?.unsubscribe() || null;
+
+    this.timerState$.next('paused');
   }
 
   stopChase() {
     clearInterval(this._intervalId);
 
     this._configSub = this._configSub?.unsubscribe() || null;
+
+    this.timerState$.next('stopped');
   }
 }
