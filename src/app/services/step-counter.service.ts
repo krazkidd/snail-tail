@@ -51,6 +51,7 @@ export class StepCounterService implements OnDestroy {
 
       // how long it takes the tail to cover the user's stride length
       const tailStepTime_m = config.userStrideLength_m / (AVATARS_TAIL[config.tailIcon].velocity_kph * 1000) * 60;
+      const tailStepTime_ms = tailStepTime_m * 60 * 1000;
 
       // update subscribers with initial values
       this.stepsCounted$.next({
@@ -60,22 +61,34 @@ export class StepCounterService implements OnDestroy {
         estimatedTimeRemaining_m: Math.floor((this.userSteps - this.tailSteps) * tailStepTime_m),
       });
 
+      let lastStepTimestamp = Date.now();
+
       this._intervalId = setInterval(() => {
-        this.tailSteps++;
+        const now = Date.now();
 
-        if (this.tailSteps >= this.userSteps) {
-          this.isUserCaught = true;
+        const timeDiff = now - lastStepTimestamp;
 
-          this.pauseChase();
+        const tailSteps = Math.floor(timeDiff / tailStepTime_ms);
+
+        if (tailSteps > 0) {
+          this.tailSteps += tailSteps;
+
+          lastStepTimestamp += tailStepTime_ms * tailSteps;
+
+          if (this.tailSteps >= this.userSteps) {
+            this.isUserCaught = true;
+
+            this.pauseChase();
+          }
+
+          this.stepsCounted$.next({
+            userSteps: this.userSteps,
+            tailSteps: this.tailSteps,
+            isUserCaught: this.isUserCaught,
+            estimatedTimeRemaining_m: Math.floor((this.userSteps - this.tailSteps) * tailStepTime_m),
+          });
         }
-
-        this.stepsCounted$.next({
-          userSteps: this.userSteps,
-          tailSteps: this.tailSteps,
-          isUserCaught: this.isUserCaught,
-          estimatedTimeRemaining_m: Math.floor((this.userSteps - this.tailSteps) * tailStepTime_m),
-        });
-      }, tailStepTime_m * 60 * 1000);
+      }, Math.max(1000, tailStepTime_ms));
     });
 
     this.timerState$.next('started');
