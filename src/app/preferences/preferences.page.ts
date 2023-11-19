@@ -15,8 +15,8 @@ import { AVATARS_USER, AVATARS_TAIL } from '../constants';
 export class PreferencesPage {
   config$ = this.configService.config$;
 
-  userAvatars: UserAvatar[] = AVATARS_USER;
-  tailAvatars: TailAvatar[] = AVATARS_TAIL;
+  userAvatars: Record<string, UserAvatar> = AVATARS_USER;
+  tailAvatars: Record<string, TailAvatar> = AVATARS_TAIL;
 
   constructor(private configService: ConfigService) {
 
@@ -31,6 +31,6 @@ export class PreferencesPage {
       value = String(Math.max(0.1, Math.min(1000.0, value as number)));
     }
 
-    this.configService.setConfig({ [configProp]: value as string });
+    this.configService.setConfig({ [configProp]: value });
   }
 }

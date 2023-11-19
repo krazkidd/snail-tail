@@ -15,8 +15,8 @@
 
       <ion-item>
         <ion-select label="Avatar" labelPlacement="stacked" [value]="config.userIcon" (ionChange)="onChange('userIcon', $event.target.value)">
-          <ion-select-option *ngFor="let avatar of userAvatars" [value]="avatar.icon">
-            {{ avatar.name }}
+          <ion-select-option *ngFor="let item of userAvatars | keyvalue" [value]="item.key">
+            {{ item.value.name }}
           </ion-select-option>
         </ion-select>
       </ion-item>
@@ -37,8 +37,8 @@
 
       <ion-item>
         <ion-select label="Avatar" labelPlacement="stacked" [value]="config.tailIcon" (ionChange)="onChange('tailIcon', $event.target.value)">
-          <ion-select-option *ngFor="let avatar of tailAvatars" [value]="avatar.icon">
-            {{ avatar.name }}
+          <ion-select-option *ngFor="let item of tailAvatars | keyvalue" [value]="item.key">
+            {{ item.value.name }}
           </ion-select-option>
         </ion-select>
       </ion-item>

@@ -42,7 +42,7 @@ export class StepCounterService implements OnDestroy {
       let tailSteps = 0;
 
       // how long it takes the tail to cover the user's stride length
-      const tailStepTime_m = config.userStrideLength_m / (this.getAvatar(config.tailIcon).velocity_kph * 1000) * 60;
+      const tailStepTime_m = config.userStrideLength_m / (AVATARS_TAIL[config.tailIcon].velocity_kph * 1000) * 60;
 
       // update subscribers with initial values
       this.stepsCounted$.next({
@@ -75,10 +75,5 @@ export class StepCounterService implements OnDestroy {
     clearInterval(this._intervalId);
 
     this._configSub = this._configSub?.unsubscribe() || null;
-  }
-
-  getAvatar(tailIcon: string) {
-    //TODO we shouldn't have to .find() the avatar; put this in ConfigService
-    return AVATARS_TAIL.find(t => t.icon === tailIcon)!;
   }
 }
