@@ -5,5 +5,37 @@
     </ion-buttons>
 
     <ion-title>{{ title }}</ion-title>
+
+    <ion-buttons *ngIf="timerStatus$ | async as timerStatus" slot="end">
+      <ion-button
+        *ngIf="timerStatus !== 'started'"
+        type="button"
+        fill="clear"
+        color="dark"
+        (click)="onClick('start')"
+      >
+        <ion-icon slot="icon-only" name="play-circle-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button
+        *ngIf="timerStatus === 'started'"
+        type="button"
+        fill="clear"
+        color="dark"
+        (click)="onClick('pause')"
+      >
+        <ion-icon slot="icon-only" name="pause-circle-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button
+        type="button"
+        fill="clear"
+        color="dark"
+        [disabled]="timerStatus === 'stopped'"
+        (click)="onClick('stop')"
+      >
+        <ion-icon slot="icon-only" name="stop-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
