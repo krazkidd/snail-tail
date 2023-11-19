@@ -1,6 +1,8 @@
 import { Component, } from '@angular/core';
+import { combineLatest, map } from 'rxjs';
 
 import { ConfigService } from '../services/config.service';
+import { StepCounterService } from '../services/step-counter.service';
 
 import { UserAvatar } from '../user-avatar';
 import { TailAvatar } from '../tail-avatar';
@@ -13,12 +15,15 @@ import { AVATARS_USER, AVATARS_TAIL } from '../constants';
   styleUrls: ['./preferences.page.scss'],
 })
 export class PreferencesPage {
-  config$ = this.configService.config$;
+  latest$ = combineLatest([
+    this.configService.config$,
+    this.stepCounterService.timerState$,
+  ]).pipe(map(([ config, timerState ]) => ({ config, timerState })));
 
   userAvatars: Record<string, UserAvatar> = AVATARS_USER;
   tailAvatars: Record<string, TailAvatar> = AVATARS_TAIL;
 
-  constructor(private configService: ConfigService) {
+  constructor(private configService: ConfigService, private stepCounterService: StepCounterService) {
 
   }
 

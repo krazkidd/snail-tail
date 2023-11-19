@@ -3,26 +3,32 @@
 <ion-content [fullscreen]="true">
   <app-header-condensed title="Preferences"></app-header-condensed>
 
-  <ng-container *ngIf="config$ | async as config">
+  <ng-container *ngIf="latest$ | async as latest">
+    <ion-toolbar *ngIf="latest.timerState !== 'stopped'" color="warning">
+      <div class="ion-text-center">
+        Stop the timer to change distance options.
+      </div>
+    </ion-toolbar>
+
     <ion-item-group>
       <ion-item-divider>
         <ion-label>User</ion-label>
       </ion-item-divider>
 
       <ion-item>
-        <ion-input type="text" label="Name" labelPlacement="stacked" [value]="config.userName" (ionChange)="onChange('userName', $event.target.value)"></ion-input>
+        <ion-input type="text" label="Name" labelPlacement="stacked" [value]="latest.config.userName" (ionChange)="onChange('userName', $event.target.value)"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-select label="Avatar" labelPlacement="stacked" [value]="config.userIcon" (ionChange)="onChange('userIcon', $event.target.value)">
+        <ion-select label="Avatar" labelPlacement="stacked" [value]="latest.config.userIcon" (ionChange)="onChange('userIcon', $event.target.value)">
           <ion-select-option *ngFor="let item of userAvatars | keyvalue" [value]="item.key">
             {{ item.value.name }}
           </ion-select-option>
         </ion-select>
       </ion-item>
 
-      <ion-item>
-        <ion-input type="number" label="Stride Length (m)" labelPlacement="stacked" [value]="config.userStrideLength_m" (ionChange)="onChange('userStrideLength_m', $event.target.value)"></ion-input>
+      <ion-item [disabled]="latest.timerState !== 'stopped'">
+        <ion-input type="number" label="Stride Length (m)" labelPlacement="stacked" [value]="latest.config.userStrideLength_m" (ionChange)="onChange('userStrideLength_m', $event.target.value)"></ion-input>
       </ion-item>
     </ion-item-group>
 
@@ -32,11 +38,11 @@
       </ion-item-divider>
 
       <ion-item>
-        <ion-input type="text" label="Name" labelPlacement="stacked" [value]="config.tailName" (ionChange)="onChange('tailName', $event.target.value)"></ion-input>
+        <ion-input type="text" label="Name" labelPlacement="stacked" [value]="latest.config.tailName" (ionChange)="onChange('tailName', $event.target.value)"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-select label="Avatar" labelPlacement="stacked" [value]="config.tailIcon" (ionChange)="onChange('tailIcon', $event.target.value)">
+        <ion-select label="Avatar" labelPlacement="stacked" [value]="latest.config.tailIcon" (ionChange)="onChange('tailIcon', $event.target.value)">
           <ion-select-option *ngFor="let item of tailAvatars | keyvalue" [value]="item.key">
             {{ item.value.name }}
           </ion-select-option>
@@ -49,8 +55,8 @@
         <ion-label>Other</ion-label>
       </ion-item-divider>
 
-      <ion-item>
-        <ion-input type="number" label="Initial Lead (km)" labelPlacement="stacked" [value]="config.userStrideLength_m" (ionChange)="onChange('initialLead_km', $event.target.value)"></ion-input>
+      <ion-item [disabled]="latest.timerState !== 'stopped'">
+        <ion-input type="number" label="Initial Lead (km)" labelPlacement="stacked" [value]="latest.config.userStrideLength_m" (ionChange)="onChange('initialLead_km', $event.target.value)"></ion-input>
       </ion-item>
     </ion-item-group>
   </ng-container>
