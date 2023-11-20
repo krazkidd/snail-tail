@@ -1,4 +1,5 @@
 import { Config } from './config';
+
 import { UserAvatar } from './user-avatar';
 import { TailAvatar } from './tail-avatar';
 

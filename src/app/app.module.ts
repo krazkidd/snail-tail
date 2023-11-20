@@ -29,9 +29,9 @@ import { StorageService } from './services/storage.service';
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy
     },
+    StorageService,
     ConfigService,
     StepCounterService,
-    StorageService
   ],
   bootstrap: [AppComponent],
 })
