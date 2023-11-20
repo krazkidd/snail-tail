@@ -34,8 +34,6 @@ export class StepCounterService implements OnDestroy {
 
   constructor(private storageService: StorageService, private configService: ConfigService) {
     setTimeout(async () => {
-      const { tailStepTime_m } = this.getTailStepTime(await firstValueFrom(this.configService.config$));
-
       const { userSteps, tailSteps, lastStepTimestamp, timerState } = await this.getSteps();
 
       this.userSteps = userSteps;
@@ -44,13 +42,7 @@ export class StepCounterService implements OnDestroy {
 
       this.isUserCaught = this.tailSteps >= this.userSteps;
 
-      // update subscribers with initial values
-      this.stepsCounted$.next({
-        userSteps: this.userSteps,
-        tailSteps: this.tailSteps,
-        isUserCaught: this.isUserCaught,
-        estimatedTimeRemaining_m: Math.floor((this.userSteps - this.tailSteps) * tailStepTime_m),
-      });
+      this.updateSteps(await firstValueFrom(this.configService.config$));
 
       await this.changeMode(timerState);
     });
@@ -75,6 +67,18 @@ export class StepCounterService implements OnDestroy {
       tailSteps: this.tailSteps,
       lastStepTimestamp: this.lastStepTimestamp,
       timerState: await firstValueFrom(this.timerState$),
+    });
+  }
+
+  updateSteps(config: Config) {
+    const { tailStepTime_m } = this.getTailStepTime(config);
+
+    // update subscribers with initial values
+    this.stepsCounted$.next({
+      userSteps: this.userSteps,
+      tailSteps: this.tailSteps,
+      isUserCaught: this.isUserCaught,
+      estimatedTimeRemaining_m: Math.floor((this.userSteps - this.tailSteps) * tailStepTime_m),
     });
   }
 
@@ -106,13 +110,7 @@ export class StepCounterService implements OnDestroy {
 
         this.isUserCaught = false;
 
-        // update subscribers with initial values
-        this.stepsCounted$.next({
-          userSteps: this.userSteps,
-          tailSteps: this.tailSteps,
-          isUserCaught: this.isUserCaught,
-          estimatedTimeRemaining_m: Math.floor((this.userSteps - this.tailSteps) * tailStepTime_m),
-        });
+        this.updateSteps(config);
       } else if (await firstValueFrom(this.timerState$) === 'paused') {
         this.lastStepTimestamp = Date.now();
       }
@@ -130,12 +128,7 @@ export class StepCounterService implements OnDestroy {
             await this.changeMode('paused');
           }
 
-          this.stepsCounted$.next({
-            userSteps: this.userSteps,
-            tailSteps: this.tailSteps,
-            isUserCaught: this.isUserCaught,
-            estimatedTimeRemaining_m: Math.floor((this.userSteps - this.tailSteps) * tailStepTime_m),
-          });
+          this.updateSteps(config);
         }
       }, Math.max(1000, tailStepTime_ms));
     });
