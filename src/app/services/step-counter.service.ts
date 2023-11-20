@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { ReplaySubject, Subscription, firstValueFrom } from 'rxjs';
 
 import { ConfigService } from './config.service';
 
@@ -9,19 +9,14 @@ import { AVATARS_TAIL } from '../constants';
   providedIn: 'root'
 })
 export class StepCounterService implements OnDestroy {
-  timerState$ = new BehaviorSubject<'started' | 'paused' | 'stopped'>('stopped');
+  timerState$ = new ReplaySubject<'started' | 'paused' | 'stopped'>(1);
 
-  stepsCounted$ = new BehaviorSubject<{
+  stepsCounted$ = new ReplaySubject<{
     userSteps: number,
     tailSteps: number,
     isUserCaught: boolean,
     estimatedTimeRemaining_m: number,
-  }>({
-    userSteps: 0,
-    tailSteps: 0,
-    isUserCaught: false,
-    estimatedTimeRemaining_m: 0,
-  });
+  }>(1);
 
   private userSteps = 0;
   private tailSteps = 0;
@@ -39,7 +34,7 @@ export class StepCounterService implements OnDestroy {
   }
 
   startChase() {
-    this._configSub = this.configService.config$.subscribe(config => {
+    this._configSub = this.configService.config$.subscribe(async (config) => {
       clearInterval(this._intervalId);
 
       // how long it takes the tail to cover the user's stride length
@@ -47,7 +42,7 @@ export class StepCounterService implements OnDestroy {
       const tailStepTime_ms = tailStepTime_m * 60 * 1000;
 
       // reset steps when restarting from stopped state
-      if (this.isUserCaught || this.timerState$.getValue() === 'stopped') {
+      if (this.isUserCaught || await firstValueFrom(this.timerState$) === 'stopped') {
         this.userSteps = config.initialLead_km * 1000 / config.userStrideLength_m;
         this.tailSteps = 0;
         this.isUserCaught = false;
