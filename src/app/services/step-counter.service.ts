@@ -88,7 +88,7 @@ export class StepCounterService implements OnDestroy {
     this._configSub = this._configSub?.unsubscribe() || null;
 
     if (timerState === 'started') {
-      this.startChase();
+      this.startChase(timerState);
     }
 
     this.timerState$.next(timerState);
@@ -96,14 +96,14 @@ export class StepCounterService implements OnDestroy {
     return this.setSteps();
   }
 
-  startChase() {
+  startChase(timerState: 'started' | 'paused' | 'stopped') {
     this._configSub = this.configService.config$.subscribe(async (config) => {
       clearInterval(this._intervalId);
 
       const { tailStepTime_m, tailStepTime_ms } = this.getTailStepTime(config);
 
       // reset steps when restarting from stopped state
-      if (this.isUserCaught || await firstValueFrom(this.timerState$) === 'stopped') {
+      if (this.isUserCaught || timerState === 'stopped') {
         this.userSteps = config.initialLead_km * 1000 / config.userStrideLength_m;
         this.tailSteps = 0;
         this.lastStepTimestamp = Date.now();
@@ -111,7 +111,7 @@ export class StepCounterService implements OnDestroy {
         this.isUserCaught = false;
 
         this.updateSteps(config);
-      } else if (await firstValueFrom(this.timerState$) === 'paused') {
+      } else if (timerState === 'paused') {
         this.lastStepTimestamp = Date.now();
       }
 
