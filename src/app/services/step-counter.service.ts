@@ -4,6 +4,8 @@ import { ReplaySubject, Subscription, firstValueFrom } from 'rxjs';
 import { StorageService } from './storage.service';
 import { ConfigService } from './config.service';
 
+import { Config } from '../config';
+
 import { AVATARS_TAIL } from '../constants';
 
 const STORAGE_KEY = 'step_counter';
@@ -32,11 +34,7 @@ export class StepCounterService implements OnDestroy {
 
   constructor(private storageService: StorageService, private configService: ConfigService) {
     setTimeout(async () => {
-      const config = await firstValueFrom(this.configService.config$);
-
-      // how long it takes the tail to cover the user's stride length
-      const tailStepTime_m = config.userStrideLength_m / (AVATARS_TAIL[config.tailIcon].velocity_kph * 1000) * 60;
-      const tailStepTime_ms = tailStepTime_m * 60 * 1000;
+      const { tailStepTime_m } = this.getTailStepTime(await firstValueFrom(this.configService.config$));
 
       const { userSteps, tailSteps, lastStepTimestamp, timerState } = await this.getSteps();
 
@@ -97,9 +95,7 @@ export class StepCounterService implements OnDestroy {
     this._configSub = this.configService.config$.subscribe(async (config) => {
       clearInterval(this._intervalId);
 
-      // how long it takes the tail to cover the user's stride length
-      const tailStepTime_m = config.userStrideLength_m / (AVATARS_TAIL[config.tailIcon].velocity_kph * 1000) * 60;
-      const tailStepTime_ms = tailStepTime_m * 60 * 1000;
+      const { tailStepTime_m, tailStepTime_ms } = this.getTailStepTime(config);
 
       // reset steps when restarting from stopped state
       if (this.isUserCaught || await firstValueFrom(this.timerState$) === 'stopped') {
@@ -141,5 +137,16 @@ export class StepCounterService implements OnDestroy {
         }
       }, Math.max(1000, tailStepTime_ms));
     });
+  }
+
+  getTailStepTime(config: Config): { tailStepTime_m: number, tailStepTime_ms: number } {
+    // how long it takes the tail to cover the user's stride length
+    const tailStepTime_m = config.userStrideLength_m / (AVATARS_TAIL[config.tailIcon].velocity_kph * 1000) * 60;
+    const tailStepTime_ms = tailStepTime_m * 60 * 1000;
+
+    return {
+      tailStepTime_m,
+      tailStepTime_ms,
+    };
   }
 }
