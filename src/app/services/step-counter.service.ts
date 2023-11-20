@@ -41,6 +41,7 @@ export class StepCounterService implements OnDestroy {
       this.userSteps = userSteps;
       this.tailSteps = tailSteps;
       this.lastStepTimestamp = lastStepTimestamp;
+
       this.isUserCaught = this.tailSteps >= this.userSteps;
 
       // update subscribers with initial values
@@ -102,6 +103,7 @@ export class StepCounterService implements OnDestroy {
         this.userSteps = config.initialLead_km * 1000 / config.userStrideLength_m;
         this.tailSteps = 0;
         this.lastStepTimestamp = Date.now();
+
         this.isUserCaught = false;
 
         // update subscribers with initial values
