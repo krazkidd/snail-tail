@@ -53,7 +53,7 @@ export class StepCounterService implements OnDestroy {
         estimatedTimeRemaining_m: Math.floor((this.userSteps - this.tailSteps) * tailStepTime_m),
       });
 
-      this.changeMode(timerState);
+      await this.changeMode(timerState);
     });
   }
 
@@ -79,7 +79,7 @@ export class StepCounterService implements OnDestroy {
     });
   }
 
-  changeMode(timerState: 'started' | 'paused' | 'stopped') {
+  async changeMode(timerState: 'started' | 'paused' | 'stopped') {
     clearInterval(this._intervalId);
 
     this._configSub = this._configSub?.unsubscribe() || null;
@@ -90,7 +90,7 @@ export class StepCounterService implements OnDestroy {
 
     this.timerState$.next(timerState);
 
-    this.setSteps();
+    return this.setSteps();
   }
 
   startChase() {
@@ -119,7 +119,7 @@ export class StepCounterService implements OnDestroy {
         this.lastStepTimestamp = Date.now();
       }
 
-      this._intervalId = setInterval(() => {
+      this._intervalId = setInterval(async () => {
         const tailSteps = Math.floor((Date.now() - this.lastStepTimestamp) / tailStepTime_ms);
 
         if (tailSteps > 0) {
@@ -129,7 +129,7 @@ export class StepCounterService implements OnDestroy {
           if (this.tailSteps >= this.userSteps) {
             this.isUserCaught = true;
 
-            this.changeMode('paused');
+            await this.changeMode('paused');
           }
 
           this.stepsCounted$.next({
