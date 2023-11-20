@@ -120,11 +120,7 @@ export class StepCounterService implements OnDestroy {
       }
 
       this._intervalId = setInterval(() => {
-        const now = Date.now();
-
-        const timeDiff = now - lastStepTimestamp;
-
-        const tailSteps = Math.floor(timeDiff / tailStepTime_ms);
+        const tailSteps = Math.floor((Date.now() - this.lastStepTimestamp) / tailStepTime_ms);
 
         if (tailSteps > 0) {
           this.tailSteps += tailSteps;
