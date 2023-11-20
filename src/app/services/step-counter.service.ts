@@ -58,7 +58,7 @@ export class StepCounterService implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.changeMode('stopped');
+    this._configSub?.unsubscribe();
   }
 
   async getSteps() {
