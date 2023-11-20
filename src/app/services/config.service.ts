@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
 
 import { StorageService } from './storage.service';
 
@@ -13,25 +13,19 @@ const STORAGE_KEY = 'config';
   providedIn: 'root'
 })
 export class ConfigService {
-  config$ = new BehaviorSubject(CONFIG_DEFAULT);
+  config$ = new ReplaySubject<Config>(1);
 
   constructor(private storageService: StorageService) {
-    setTimeout(async () => {
-      const storedConfig = await this.getConfig();
-
-      if (storedConfig) {
-        this.config$.next(storedConfig);
-      }
-    });
+    setTimeout(async () => this.config$.next(await this.getConfig()));
   }
 
   async getConfig() {
-    return this.storageService.get(STORAGE_KEY);
+    return await this.storageService.get(STORAGE_KEY) || CONFIG_DEFAULT;
   }
 
   async setConfig(partialConfig: Partial<Config>) {
     const config = {
-      ...(await this.getConfig() || CONFIG_DEFAULT),
+      ...(await firstValueFrom(this.config$)),
       ...partialConfig
     };
 

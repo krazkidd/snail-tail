@@ -20,4 +20,8 @@ export class StorageService {
     return this.storage.then(storage => storage.set(key, value));
   }
 
+  async remove(key: string) {
+    return this.storage.then(storage => storage.remove(key));
+  }
+
 }

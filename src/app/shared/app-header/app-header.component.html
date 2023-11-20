@@ -12,7 +12,7 @@
         type="button"
         fill="clear"
         color="dark"
-        (click)="onClick('start')"
+        (click)="onClick('started')"
       >
         <ion-icon slot="icon-only" name="play-circle-outline"></ion-icon>
       </ion-button>
@@ -22,7 +22,7 @@
         type="button"
         fill="clear"
         color="dark"
-        (click)="onClick('pause')"
+        (click)="onClick('paused')"
       >
         <ion-icon slot="icon-only" name="pause-circle-outline"></ion-icon>
       </ion-button>
@@ -32,7 +32,7 @@
         fill="clear"
         color="dark"
         [disabled]="timerStatus === 'stopped'"
-        (click)="onClick('stop')"
+        (click)="onClick('stopped')"
       >
         <ion-icon slot="icon-only" name="stop-circle-outline"></ion-icon>
       </ion-button>

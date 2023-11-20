@@ -24,23 +24,7 @@ export class AppHeaderComponent  implements OnInit {
 
   }
 
-  onClick(action: string) {
-    switch (action) {
-      case 'start':
-        this.stepCounterService.startChase();
-
-        break;
-      case 'pause':
-        this.stepCounterService.pauseChase();
-
-        break;
-      case 'stop':
-        this.stepCounterService.stopChase();
-
-        break;
-      default:
-        // do nothing
-        break;
-    }
+  onClick(timerState: 'started' | 'paused' | 'stopped') {
+    this.stepCounterService.changeMode(timerState);
   }
 }
