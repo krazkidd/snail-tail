@@ -30,7 +30,19 @@ export class StepCounterService implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.stopChase();
+    this.changeMode('stopped');
+  }
+
+  changeMode(timerState: 'started' | 'paused' | 'stopped') {
+    clearInterval(this._intervalId);
+
+    this._configSub = this._configSub?.unsubscribe() || null;
+
+    if (timerState === 'started') {
+      this.startChase();
+    }
+
+    this.timerState$.next(timerState);
   }
 
   startChase() {
@@ -73,7 +85,7 @@ export class StepCounterService implements OnDestroy {
           if (this.tailSteps >= this.userSteps) {
             this.isUserCaught = true;
 
-            this.pauseChase();
+            this.changeMode('paused');
           }
 
           this.stepsCounted$.next({
@@ -85,23 +97,5 @@ export class StepCounterService implements OnDestroy {
         }
       }, Math.max(1000, tailStepTime_ms));
     });
-
-    this.timerState$.next('started');
-  }
-
-  pauseChase() {
-    clearInterval(this._intervalId);
-
-    this._configSub = this._configSub?.unsubscribe() || null;
-
-    this.timerState$.next('paused');
-  }
-
-  stopChase() {
-    clearInterval(this._intervalId);
-
-    this._configSub = this._configSub?.unsubscribe() || null;
-
-    this.timerState$.next('stopped');
   }
 }
