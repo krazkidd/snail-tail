@@ -82,16 +82,18 @@ export class StepCounterService implements OnDestroy {
     });
   }
 
-  async changeMode(timerState: 'started' | 'paused' | 'stopped') {
+  async changeMode(newTimerState: 'started' | 'paused' | 'stopped') {
     clearInterval(this._intervalId);
 
     this._configSub = this._configSub?.unsubscribe() || null;
 
-    if (timerState === 'started') {
-      this.startChase(timerState);
+    if (newTimerState === 'started') {
+      const currentTimerState = await firstValueFrom(this.timerState$);
+
+      this.startChase(currentTimerState);
     }
 
-    this.timerState$.next(timerState);
+    this.timerState$.next(newTimerState);
 
     return this.setSteps();
   }
