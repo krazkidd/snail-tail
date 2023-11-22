@@ -18,6 +18,10 @@ const routes: Routes = [
     loadChildren: () => import('./preferences/preferences.module').then( m => m.PreferencesPageModule)
   },
   {
+    path: 'about',
+    loadChildren: () => import('./about/about.module').then( m => m.AboutPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./error/error.module').then( m => m.ErrorPageModule),
     data: {
