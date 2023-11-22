@@ -21,6 +21,11 @@ export class AppComponent {
       url: '/preferences',
       icon: '2699'
     },
+    {
+      title: 'About',
+      url: '/about',
+      icon: '2139'
+    },
   ];
 
   constructor(private configService: ConfigService) {
