@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'net.xericode.snail-tail',
   appName: 'Snail Tail',
   webDir: 'www',
   server: {
