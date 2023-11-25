@@ -1,6 +1,6 @@
 # Snail Tail
 
-Run (or walk!) from an immortal snail (or an adversary of your choice). Move your body to put distance between you and them or face an uncertain threat...
+Run (or walk!) from an ephemeral adversary of your choice. Move your body to put distance between you and them or face an uncertain threat...
 
 Just kidding! You can opt out just as easily as you opt in. We just want you to make physical activity a routine.
 
