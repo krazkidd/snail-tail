@@ -3,7 +3,7 @@ alerts:
 - rule: DOMAIN_FAILED
 - rule: DEPLOYMENT_LIVE
 domains:
-- domain: snail-tail.xericode.net
+- domain: snail-tail.app.xericode.net
   type: PRIMARY
   zone: xericode.net
 features:
