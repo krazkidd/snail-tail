@@ -11,7 +11,7 @@ features:
 ingress:
   rules:
   - component:
-      name: snail-tail
+      name: web
     match:
       path:
         prefix: /
