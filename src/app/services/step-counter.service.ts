@@ -44,9 +44,10 @@ export class StepCounterService implements OnDestroy {
 
       this.updateSteps(await firstValueFrom(this.configService.config$));
 
-      // HACK: this.startChase() needs to know the current mode, so
-      //       we have to seed this.timerState$ with *something*
-      //       or we'll hang.
+      // HACK: startChase() needs to know the current mode, so
+      //       we have to seed timerState$ with *something*
+      //       or we'll hang. We can't use 'stopped' or 'paused'
+      //       because then we'll induce special logic.
 
       if (timerState === 'started') {
         this.timerState$.next(timerState);
