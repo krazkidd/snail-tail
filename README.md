@@ -20,11 +20,6 @@ License: AGPLv3 (see LICENSE.md file)
 
 First and foremost, this is an Ionic app, so we use Ionic tooling which wraps Angular tooling. Capacitor tooling is used for mobile targeting.
 
-### VS Code Recommended Extensions:
-
-- [Angular.ng-template](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template)
-- [ionic.ionic](https://marketplace.visualstudio.com/items?itemName=ionic.ionic)
-
 ### Setup
 
 To install dependencies:
