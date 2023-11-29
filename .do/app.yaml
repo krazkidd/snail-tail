@@ -5,7 +5,7 @@ alerts:
 domains:
 - domain: snail-tail.app.xericode.net
   type: PRIMARY
-  zone: xericode.net
+  zone: app.xericode.net
 features:
 - buildpack-stack=ubuntu-22
 ingress:
@@ -19,11 +19,12 @@ name: snail-tail-app
 region: nyc
 static_sites:
 - build_command: npx @ionic/cli build --prod -- --base-href /
+  catchall_document: index.html
   environment_slug: node-js
   github:
     branch: main
     deploy_on_push: true
     repo: krazkidd/snail-tail
-  name: snail-tail
+  name: web
   output_dir: www
   source_dir: /
