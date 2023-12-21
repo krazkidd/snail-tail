@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'net.xericode.app.snail-tail',
+  appId: 'net.xericode.app.snail_tail',
   appName: 'Snail Tail',
   webDir: 'www',
   server: {
